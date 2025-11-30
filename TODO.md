@@ -1,2 +1,0 @@
-- [x] Fix hooks order violation in QRScanner.jsx by moving useAnimatedStyle calls to top unconditionally
-- [x] Fix navigation to Attendance by targeting 'Main' screen with nested 'Attendance'
