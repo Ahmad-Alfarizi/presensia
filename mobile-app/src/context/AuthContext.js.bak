@@ -1,0 +1,135 @@
+import React, { createContext, useState, useEffect } from 'react';
+import { 
+  createUserWithEmailAndPassword, 
+  signInWithEmailAndPassword,
+  signOut as firebaseSignOut,
+  onAuthStateChanged,
+} from 'firebase/auth';
+import { 
+  doc, 
+  setDoc, 
+  getDoc 
+} from 'firebase/firestore';
+import { auth, db } from '../config/firebase';
+import * as SecureStore from 'expo-secure-store';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+
+export const AuthContext = createContext();
+
+export const AuthProvider = ({ children }) => {
+  const [user, setUser] = useState(null);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const unsubscribe = onAuthStateChanged(auth, async (firebaseUser) => {
+      if (firebaseUser) {
+        // Get additional user data from Firestore
+        const userDoc = await getDoc(doc(db, 'users', firebaseUser.uid));
+        const userData = userDoc.data();
+        
+        setUser({
+          uid: firebaseUser.uid,
+          email: firebaseUser.email,
+          ...userData
+        });
+      } else {
+        setUser(null);
+      }
+      setLoading(false);
+    });
+
+    return unsubscribe;
+  }, []);
+
+  const signUp = async (email, password, role, additionalData = {}) => {
+    try {
+      const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+      const { uid } = userCredential.user;
+
+      // Store additional user data in Firestore
+      await setDoc(doc(db, 'users', uid), {
+        email,
+        role,
+        createdAt: new Date().toISOString(),
+        ...additionalData
+      });
+
+      return userCredential.user;
+    } catch (error) {
+      throw error;
+    }
+  };
+
+  const signIn = async (credentials) => {
+    try {
+      const { email, password } = credentials;
+      console.log('Attempting Firebase authentication...');
+      const userCredential = await signInWithEmailAndPassword(auth, email, password);
+      const { uid } = userCredential.user;
+      console.log('Firebase auth successful, getting Firestore data...');
+
+      // Get user data from Firestore
+      // Get user data from Firestore
+      const userDoc = await getDoc(doc(db, 'users', uid));
+      if (!userDoc.exists()) {
+        console.error('No user document found in Firestore');
+        throw new Error('User data not found');
+      }
+      const userData = userDoc.data();
+      console.log('Firestore data retrieved:', { ...userData, uid });
+
+      // Create the combined user object
+      const combinedUser = {
+        uid,
+        email: userCredential.user.email,
+        ...userData
+      };
+      }
+
+      const combinedUser = {
+        uid,
+        email: userCredential.user.email,
+        ...userData
+      };
+
+      setUser(combinedUser);
+
+      // Store user data in AsyncStorage for persistence
+      await AsyncStorage.setItem('userData', JSON.stringify(combinedUser));
+      console.log('User data saved to AsyncStorage');
+
+      // Return the combined user object (including role and other Firestore fields)
+      return combinedUser;
+    } catch (error) {
+      console.error('SignIn error:', error);
+      // Mengubah error message menjadi format yang sesuai dengan Firebase error codes
+      if (error.message === 'User data not found') {
+        throw { code: 'auth/user-not-found', message: error.message };
+      }
+      throw error;
+    }
+  };
+
+  const signOut = async () => {
+    try {
+      await firebaseSignOut(auth);
+      setUser(null);
+      await SecureStore.deleteItemAsync('presensia_token');
+      await AsyncStorage.removeItem('userData');
+    } catch (error) {
+      throw error;
+    }
+  };
+
+  return (
+    <AuthContext.Provider value={{ 
+      user, 
+      loading, 
+      signIn, 
+      signOut,
+      signUp
+    }}>
+      {children}
+    </AuthContext.Provider>
+  );
+};

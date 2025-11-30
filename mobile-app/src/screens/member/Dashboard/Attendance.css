@@ -1,0 +1,195 @@
+.container {
+  flex: 1;
+  background-color: #f6f7f8;
+}
+
+.dark .container {
+  background-color: #101822;
+}
+
+.header {
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  padding: 16px;
+  padding-bottom: 8px;
+}
+
+.headerTitle {
+  font-size: 18px;
+  font-weight: bold;
+  color: #111418;
+}
+
+.dark .headerTitle {
+  color: white;
+}
+
+.profileImage {
+  height: 40px;
+  width: 40px;
+  border-radius: 9999px;
+}
+
+.mainContent {
+  flex: 1;
+  justify-content: space-between;
+  align-items: center;
+  padding: 24px 16px 16px 16px;
+}
+
+.locationCard {
+  width: 100%;
+  max-width: 384px;
+  background-color: white;
+  border-radius: 12px;
+  padding: 16px;
+  flex-direction: row;
+  align-items: center;
+  gap: 16px;
+  shadow-color: rgba(0, 0, 0, 0.1);
+  shadow-offset: 0px 1px;
+  shadow-opacity: 1;
+  shadow-radius: 2px;
+  elevation: 2;
+}
+
+.dark .locationCard {
+  background-color: rgba(64, 64, 64, 0.5);
+}
+
+.locationIcon {
+  background-color: rgba(80, 227, 194, 0.2);
+  border-radius: 9999px;
+  height: 48px;
+  width: 48px;
+  align-items: center;
+  justify-content: center;
+}
+
+.locationLabel {
+  color: #9ca3af;
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.locationValue {
+  font-size: 16px;
+  font-weight: bold;
+  color: #111418;
+}
+
+.dark .locationValue {
+  color: white;
+}
+
+.checkInContainer {
+  align-items: center;
+  gap: 24px;
+  margin-top: 40px;
+  margin-bottom: 24px;
+}
+
+.checkInButton {
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  border-radius: 9999px;
+  height: 192px;
+  width: 192px;
+  background-color: #136dec;
+  shadow-color: rgba(19, 109, 236, 0.3);
+  shadow-offset: 0px 4px;
+  shadow-opacity: 1;
+  shadow-radius: 8px;
+  elevation: 8;
+}
+
+.checkInText {
+  color: white;
+  font-size: 24px;
+  font-weight: bold;
+  margin-top: 8px;
+}
+
+.qrButton {
+  flex-direction: row;
+  align-items: center;
+  gap: 8px;
+}
+
+.qrText {
+  font-size: 14px;
+  font-weight: bold;
+  color: #111418;
+}
+
+.dark .qrText {
+  color: white;
+}
+
+.scheduleCard {
+  width: 100%;
+  max-width: 384px;
+  background-color: white;
+  border-radius: 12px;
+  padding: 16px;
+  shadow-color: rgba(0, 0, 0, 0.1);
+  shadow-offset: 0px 1px;
+  shadow-opacity: 1;
+  shadow-radius: 2px;
+  elevation: 2;
+}
+
+.dark .scheduleCard {
+  background-color: rgba(64, 64, 64, 0.5);
+}
+
+.scheduleLabel {
+  color: #9ca3af;
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.scheduleInfo {
+  flex-direction: row;
+  justify-content: space-between;
+  margin-top: 4px;
+}
+
+.className {
+  font-size: 16px;
+  font-weight: bold;
+  color: #111418;
+}
+
+.dark .className {
+  color: white;
+}
+
+.classTime {
+  font-size: 16px;
+  font-weight: 600;
+  color: #136dec;
+}
+
+.modalOverlay {
+  flex: 1;
+  justify-content: center;
+  align-items: center;
+  background-color: rgba(0, 0, 0, 0.3);
+}
+
+.modalContent {
+  background-color: white;
+  border-radius: 12px;
+  padding: 24px;
+  align-items: center;
+}
+
+.modalText {
+  font-size: 18px;
+  font-weight: bold;
+  margin-top: 8px;
+  color: #111418;
+}

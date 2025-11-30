@@ -1,0 +1,13 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Global styles for Presensia admin */
+:root{
+  --primary: #1D5DFF;
+}
+
+body{ @apply bg-gray-50 text-gray-800; }
+
+/* Simple card */
+.card{ @apply bg-white rounded-xl shadow-sm p-4 }
